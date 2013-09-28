@@ -1,0 +1,24 @@
+[user]
+    name = Marcello de Sales
+    email = Marcello_DeSales@intuit.com
+[alias]
+    lol = log --pretty=oneline --abbrev-commit --graph --decorate
+    lg = log --color --graph --pretty=format:'%C(yellow)%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+    new = !sh -c 'git log $1@{1}..$1@{0} "$@"'
+    reflog = gitk --all --date-order $(git log -g --pretty=%H)
+    lostfound = gitk --all --date-order $(git fsck | grep "dangling commit" | awk '{print $3;}')
+    files = show --pretty="format:" --name-only
+    refact = blame -C
+    which = rev-parse --symbolic-full-name HEAD
+
+    #currentBranch=$(echo $(__git_ps1) | egrep -o '[a-zA-Z0-0]+')
+
+    #### git start dev/newWork master
+    start = !sh -c 'git checkout -b $(echo $(__git_ps1) | egrep -o '[a-zA-Z0-0]+') origin/$1 --track'
+
+    #### git release dev/newWork master
+    release = !sh -c 'git checkout $1 && git pull origin $1 && git merge --no-ff $0 && git push origin $1 && git branch -d $0'
+
+    logdiff = !sh -c 'git log origin/$0..$1'
+[color]
+    ui = true
